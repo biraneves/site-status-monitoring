@@ -12,7 +12,7 @@ func main() {
 	var option  int
 
 	show_menu()
-	fmt.Scanf("%d", &option)
+	fmt.Scan(&option)
 
 }
 
