@@ -9,10 +9,8 @@ const VERSION = "0.1.0"
 
 func main() {
 
-	var option  int
-
-	show_menu()
-	fmt.Scan(&option)
+	showMenu()
+	option := getOption()
 
 	switch option {
 
@@ -32,7 +30,7 @@ func main() {
 
 }
 
-func show_menu() {
+func showMenu() {
 
 	title := fmt.Sprint("Site Status Monitor - v. ", VERSION)
 	fmt.Println("")
@@ -43,5 +41,14 @@ func show_menu() {
 	fmt.Println("[0] Sair")
 	sv.Line("-", len(title))
 	fmt.Print("Sua opção: ")
+
+}
+
+func getOption() int {
+
+	var option int
+	fmt.Scan(&option)
+
+	return option
 
 }
