@@ -26,6 +26,7 @@ func main() {
 
 	default:
 		fmt.Println("Opção inválida")
+		os.Exit(-1)
 
 	}
 
