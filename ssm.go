@@ -14,14 +14,20 @@ func main() {
 	show_menu()
 	fmt.Scan(&option)
 
-	if option == 1 {
-		fmt.Println("Monitorando...")
-	} else if option == 2 {
-		fmt.Println("Exibindo logs")
-	} else if option == 0 {
+	switch option {
+
+	case 0:
 		fmt.Println("Saindo do programa")
-	} else {
-		fmt.Println("Opção inválida!")
+
+	case 1:
+		fmt.Println("Monitorando...")
+
+	case 2:
+		fmt.Println("Exibindo logs")
+
+	default:
+		fmt.Println("Opção inválida")
+
 	}
 
 }
