@@ -69,11 +69,11 @@ func startMonitoring() {
 
 	if statusCode == 200 {
 
-		fmt.Println("Site:", site, "carregado com sucesso!")
+		fmt.Println("Testando site:", site, "\tOK")
 
 	} else {
 
-		fmt.Println("Site:", site, "apresentou problema - status code:", statusCode)
+		fmt.Println("Testando site:", site, "\tERRO\tstatus code:", statusCode)
 
 	}
 
