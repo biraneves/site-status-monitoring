@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"		// Funcionalidades de interação com o sistema operacional
+	"net/http"	// Acesso à web via protocolo HTTP
 	sv "github.com/biraneves/screen-visual"
 )
 
@@ -19,7 +20,7 @@ func main() {
 		os.Exit(0)
 
 	case 1:
-		fmt.Println("Monitorando...")
+		startMonitoring()
 
 	case 2:
 		fmt.Println("Exibindo logs")
@@ -52,5 +53,25 @@ func getOption() int {
 	fmt.Scan(&option)
 
 	return option
+
+}
+
+func startMonitoring() {
+
+	fmt.Println("\nMonitorando...")
+
+	site := "http://random-status-code.herokuapp.com/"
+	resp, _ := http.Get(site)
+	statusCode := resp.StatusCode
+
+	if statusCode == 200 {
+
+		fmt.Println("Site:", site, "carregado com sucesso!")
+
+	} else {
+
+		fmt.Println("Site:", site, "apresentou problema - status code:", statusCode)
+
+	}
 
 }
