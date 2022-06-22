@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"		// Funcionalidades de interação com o sistema operacional
 	sv "github.com/biraneves/screen-visual"
 )
 
@@ -15,7 +16,7 @@ func main() {
 	switch option {
 
 	case 0:
-		fmt.Println("Saindo do programa")
+		os.Exit(0)
 
 	case 1:
 		fmt.Println("Monitorando...")
