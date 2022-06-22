@@ -11,23 +11,26 @@ const VERSION = "0.1.0"
 
 func main() {
 
-	showMenu()
-	option := getOption()
+	for {
 
-	switch option {
+		showMenu()
+		option := getOption()
 
-	case 0:
-		os.Exit(0)
+		switch option {
 
-	case 1:
-		startMonitoring()
+		case 0:
+			os.Exit(0)
 
-	case 2:
-		fmt.Println("Exibindo logs")
+		case 1:
+			startMonitoring()
 
-	default:
-		fmt.Println("Opção inválida")
-		os.Exit(-1)
+		case 2:
+			fmt.Println("\nExibindo logs")
+
+		default:
+			fmt.Println("\nOpção inválida")
+
+		}
 
 	}
 
@@ -58,7 +61,7 @@ func getOption() int {
 
 func startMonitoring() {
 
-	fmt.Println("\nMonitorando...")
+	fmt.Println("\nMonitorando...\n")
 
 	site := "http://random-status-code.herokuapp.com/"
 	resp, _ := http.Get(site)
