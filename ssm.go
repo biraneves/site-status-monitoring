@@ -2,12 +2,17 @@ package main
 
 import (
 	"fmt"
-	"os"		// Funcionalidades de interação com o sistema operacional
-	"net/http"	// Acesso à web via protocolo HTTP
+	"net/http" // Acesso à web via protocolo HTTP
+	"os"       // Funcionalidades de interação com o sistema operacional
+	"time"
+	//"time"		// Funções envolvendo tempo
 	sv "github.com/biraneves/screen-visual"
 )
 
-const VERSION = "0.1.0"
+const version = "0.1.0"
+const scans = 5
+const delay = 10
+
 
 func main() {
 
@@ -38,7 +43,7 @@ func main() {
 
 func showMenu() {
 
-	title := fmt.Sprint("Site Status Monitor - v. ", VERSION)
+	title := fmt.Sprint("Site Status Monitor - v. ", version)
 	fmt.Println("")
 	fmt.Println(title)
 	sv.Line("=", len(title))
@@ -63,17 +68,38 @@ func startMonitoring() {
 
 	fmt.Println("\nMonitorando...\n")
 
-	site := "http://random-status-code.herokuapp.com/"
+	sites := []string{"http://random-status-code.herokuapp.com/", "https://alura.com.br", 
+		"https://brasvan.com.br", "https://geekie.one"}
+
+	for i := 0; i < scans; i++ {
+
+		for _, site := range sites {
+
+			testSite(site)
+	
+		}
+
+		time.Sleep(delay * time.Second)
+		fmt.Println("")
+
+	}
+
+}
+
+func testSite(site string) {
+
 	resp, _ := http.Get(site)
 	statusCode := resp.StatusCode
 
+	fmt.Print("Testando site:", site)
+
 	if statusCode == 200 {
 
-		fmt.Println("Testando site:", site, "\tOK")
+		fmt.Println("\tOK")
 
 	} else {
 
-		fmt.Println("Testando site:", site, "\tERRO\tstatus code:", statusCode)
+		fmt.Println("\tERRO\tstatus code:", statusCode)
 
 	}
 
