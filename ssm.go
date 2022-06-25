@@ -4,8 +4,10 @@ import (
 	"bufio" // Leitura do conteúdo de um arquivo
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http" // Acesso à web via protocolo HTTP
 	"os"       // Funcionalidades de interação com o sistema operacional
+	"strconv"
 	"strings"
 	"time" // Funções envolvendo tempo
 
@@ -33,7 +35,7 @@ func main() {
 			startMonitoring()
 
 		case 2:
-			fmt.Println("\nExibindo logs")
+			showLog()
 
 		default:
 			fmt.Println("\nOpção inválida")
@@ -107,10 +109,12 @@ func testSite(site string) {
 	if statusCode == 200 {
 
 		fmt.Println("\tOK")
+		writeLog(site, true)
 
 	} else {
 
 		fmt.Println("\tERRO\tstatus code:", statusCode)
+		writeLog(site, false)
 
 	}
 
@@ -147,5 +151,36 @@ func readSitesFromFile() []string {
 	file.Close()
 
 	return sites
+
+}
+
+func writeLog(site string, status bool) {
+
+	file, err := os.OpenFile("sites_status.log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+
+	if err != nil {
+
+		fmt.Println("Erro:", err)
+
+	}
+
+	file.WriteString(time.Now().Format("02/01/2006 15:04:05") + " - " + site + 
+		" - on-line: " + strconv.FormatBool(status) + "\n")
+
+	file.Close()
+
+}
+
+func showLog() {
+
+	file, err := ioutil.ReadFile("sites_status.log")
+
+	if err != nil {
+
+		fmt.Println("Erro:", err)
+
+	}
+
+	fmt.Println(string(file))
 
 }
