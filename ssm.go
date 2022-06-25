@@ -1,11 +1,14 @@
 package main
 
 import (
+	"bufio" // Leitura do conteúdo de um arquivo
 	"fmt"
+	"io"
 	"net/http" // Acesso à web via protocolo HTTP
 	"os"       // Funcionalidades de interação com o sistema operacional
-	"time"
-	//"time"		// Funções envolvendo tempo
+	"strings"
+	"time" // Funções envolvendo tempo
+
 	sv "github.com/biraneves/screen-visual"
 )
 
@@ -66,10 +69,12 @@ func getOption() int {
 
 func startMonitoring() {
 
-	fmt.Println("\nMonitorando...\n")
+	var sites []string
+	
+	fmt.Println("\nMonitorando...")
+	fmt.Println("")
 
-	sites := []string{"http://random-status-code.herokuapp.com/", "https://alura.com.br", 
-		"https://brasvan.com.br", "https://geekie.one"}
+	sites = readSitesFromFile()
 
 	for i := 0; i < scans; i++ {
 
@@ -88,8 +93,14 @@ func startMonitoring() {
 
 func testSite(site string) {
 
-	resp, _ := http.Get(site)
+	resp, err := http.Get(site)
 	statusCode := resp.StatusCode
+
+	if err != nil {
+
+		fmt.Println("Erro:", err)
+
+	}
 
 	fmt.Print("Testando site:", site)
 
@@ -102,5 +113,39 @@ func testSite(site string) {
 		fmt.Println("\tERRO\tstatus code:", statusCode)
 
 	}
+
+}
+
+func readSitesFromFile() []string {
+
+	var sites []string
+	
+	file, err := os.Open("sites.lst")
+
+	if err != nil {
+
+		fmt.Println("Erro:", err)
+
+	}
+
+	reader := bufio.NewReader(file)
+
+	for {
+
+		line, err := reader.ReadString('\n')
+		line = strings.TrimSpace(line)
+		sites = append(sites, line)
+
+		if err == io.EOF {
+
+			break
+
+		}
+
+	}
+
+	file.Close()
+
+	return sites
 
 }
